@@ -121,14 +121,20 @@ for i in range(len(Run_Number)):
 
     print "get the run status from DQMFile"
 
+
     check_command = 'check_runcomplete '+filepath+File_Name
-    Check_output = subprocess.check_output(check_command, shell=True)
-    check_out = Check_output.split("\n")[1].split("\n")[0]
-    if check_out == 'DQM file is ok':
-        print Check_output
+    Check_output = subprocess.call(check_command, shell=True)
+
+
+    if Check_output == 0:
+        print 'Using DQM file: '+File_Name
     else:
         print '*****************Warning: DQM file is not ready************************';
-#        sys.exit(0)
+        input_var = raw_input("DQM file is incompleted, do you want to continue? (y/n): ")
+        if (input_var == 'y') or (input_var == 'Y'):
+            print 'Using DQM file: '+File_Name
+        else:
+            sys.exit(0)
 
     
 ###################Start making TkMaps################
